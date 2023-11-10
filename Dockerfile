@@ -73,16 +73,10 @@ RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash >> /root/.bashrc"
 
 RUN apt install curl -y
-COPY ./requirements.txt /home/ubuntu/requirements.txt
-RUN pip install -r /home/ubuntu/requirements.txt
-RUN pip3 install -r /home/ubuntu/requirements.txt
-RUN rm -r /home/ubuntu/requirements.txt
-
 
 RUN apt update
 RUN apt-get install python3-catkin-tools python3-rosinstall-generator -y
-RUN mkdir /home/ubuntu/catkin_ws/
-RUN mkdir /home/ubuntu/catkin_ws/src
+RUN mkdir -p /home/ubuntu/catkin_ws/src
 WORKDIR /home/ubuntu/catkin_ws/
 RUN catkin init
 RUN wstool init src
@@ -97,3 +91,18 @@ RUN rm -r /home/ubuntu/install_px4.bash
 RUN rosinstall_generator --rosdistro noetic mavlink | tee /tmp/mavros.rosinstall
 RUN rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
 COPY ./install_mavros.bash /home/ubuntu/install_mavros.bash
+
+
+# Install miniconda to /miniconda
+RUN curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
+RUN rm Miniconda3-latest-Linux-x86_64.sh
+ENV PATH=/miniconda/bin:${PATH}
+RUN conda update -y conda
+RUN conda install -c anaconda -y python=3.11.0
+RUN conda install -c anaconda  conda-build
+RUN conda init bash
+COPY ./requirements.txt /home/ubuntu/requirements.txt
+RUN pip install -r /home/ubuntu/requirements.txt
+RUN pip3 install -r /home/ubuntu/requirements.txt
+RUN rm -r /home/ubuntu/requirements.txt
