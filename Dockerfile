@@ -109,3 +109,4 @@ RUN pip3 install -r /home/ubuntu/requirements.txt
 RUN rm -r /home/ubuntu/requirements.txt
 
 RUN apt-get install python3-tk -y
+RUN echo "alias python=python3" >> /root/.bashrc
