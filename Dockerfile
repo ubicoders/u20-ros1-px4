@@ -106,3 +106,5 @@ COPY ./requirements.txt /home/ubuntu/requirements.txt
 RUN pip install -r /home/ubuntu/requirements.txt
 RUN pip3 install -r /home/ubuntu/requirements.txt
 RUN rm -r /home/ubuntu/requirements.txt
+
+RUN apt-get install python3-tk -y
