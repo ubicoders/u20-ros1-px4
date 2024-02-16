@@ -93,15 +93,16 @@ RUN rosinstall_generator --upstream mavros | tee -a /tmp/mavros.rosinstall
 COPY ./install_mavros.bash /home/ubuntu/install_mavros.bash
 
 
-# Install miniconda to /miniconda
-RUN curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
-RUN rm Miniconda3-latest-Linux-x86_64.sh
-ENV PATH=/miniconda/bin:${PATH}
-RUN conda update -y conda
-RUN conda install -c anaconda -y python=3.11.0
-RUN conda install -c anaconda  conda-build
-RUN conda init bash
+# # Install miniconda to /miniconda
+# RUN curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+# RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
+# RUN rm Miniconda3-latest-Linux-x86_64.sh
+# ENV PATH=/miniconda/bin:${PATH}
+# RUN conda update -y conda
+# RUN conda install -c anaconda -y python=3.11.0
+# RUN conda install -c anaconda  conda-build
+# RUN conda init bash
+
 COPY ./requirements.txt /home/ubuntu/requirements.txt
 RUN pip install -r /home/ubuntu/requirements.txt
 RUN pip3 install -r /home/ubuntu/requirements.txt
